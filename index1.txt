@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Habity Questionnaire</title>
+  <!-- Google Fonts: Inter with italic style -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Global styling: use Inter font in italic */
+    body, h1, h2, p, a, label {
+      font-family: 'Inter', sans-serif;
+      font-style: italic;
+    }
+    /* Main heading 3D effect for header only */
+    .heading-3d {
+      text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000,
+                   2px 0px 0 #000, 0px 2px 0 #000, -2px 0px 0 #000, 0px -2px 0 #000;
+    }
+    /* Dynamic Background Slideshow */
+    .background-slideshow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* behind content */
+      overflow: hidden;
+    }
+    .background-slideshow .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      animation: fade 12s infinite;
+    }
+    .background-slideshow .slide:nth-child(1) {
+      animation-delay: 0s;
+    }
+    .background-slideshow .slide:nth-child(2) {
+      animation-delay: 4s;
+    }
+    .background-slideshow .slide:nth-child(3) {
+      animation-delay: 8s;
+    }
+    @keyframes fade {
+      0% { opacity: 0; }
+      8% { opacity: 1; }
+      25% { opacity: 1; }
+      33% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body class="bg-black text-white min-h-screen">
+  <!-- Dynamic Wallpaper -->
+  <div class="background-slideshow">
+    <div class="slide" style="background-image: url('images/202.jpg');"></div>
+    <div class="slide" style="background-image: url('images/203.jpg');"></div>
+    <div class="slide" style="background-image: url('images/204.jpg');"></div>
+  </div>
+
+  <!-- Header Section -->
+  <header class="w-full bg-black py-6">
+    <div class="max-w-5xl mx-auto text-center">
+      <h1 class="heading-3d text-4xl md:text-5xl font-bold">Habity Questionnaire</h1>
+      <p class="heading-3d text-lg md:text-xl font-semibold mt-2">No bullsh*t. Get your life back.</p>
+    </div>
+  </header>
+
+  <!-- Main Container for Questionnaire -->
+  <main class="mt-6 max-w-5xl mx-auto px-4">
+    <div class="relative bg-white text-black rounded-lg shadow-lg p-8 overflow-hidden">
+      <form id="multiStepForm">
+        <!-- Step 1: Personal Information -->
+        <div id="step-1" class="form-step absolute inset-0 opacity-100 pointer-events-auto relative">
+          <h2 class="text-3xl font-normal text-center mb-6">Step 1: Personal Information</h2>
+          <div class="mb-4">
+            <label for="fullName" class="block font-semibold mb-1">Full Name</label>
+            <input type="text" id="fullName" name="fullName" placeholder="John Doe" required class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-600">
+          </div>
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="age" class="block font-semibold mb-1">Age</label>
+              <input type="number" id="age" name="age" min="0" required class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-600">
+            </div>
+            <div>
+              <label for="gender" class="block font-semibold mb-1">Gender</label>
+              <select id="gender" name="gender" required class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-600">
+                <option value="">Select</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+                <option>Prefer not to say</option>
+              </select>
+            </div>
+          </div>
+          <div class="flex justify-end">
+            <button type="button" data-next="2" class="next-btn bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Next</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Physical Activity -->
+        <div id="step-2" class="form-step absolute inset-0 opacity-0 pointer-events-none">
+          <h2 class="text-3xl font-normal text-center mb-6">Step 2: Physical Activity</h2>
+          <div class="mb-4">
+            <label class="block font-semibold mb-1">How would you describe your current activity level?</label>
+            <div class="flex flex-wrap gap-4">
+              <label class="inline-flex items-center">
+                <input type="radio" name="activityLevel" value="Sedentary" required class="form-radio text-blue-600">
+                <span class="ml-2">Sedentary</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="radio" name="activityLevel" value="Lightly Active" class="form-radio text-blue-600">
+                <span class="ml-2">Lightly Active</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="radio" name="activityLevel" value="Moderately Active" class="form-radio text-blue-600">
+                <span class="ml-2">Moderately Active</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="radio" name="activityLevel" value="Very Active" class="form-radio text-blue-600">
+                <span class="ml-2">Very Active</span>
+              </label>
+            </div>
+          </div>
+          <div class="mb-4">
+            <label for="exerciseDays" class="block font-semibold mb-1">How many days per week do you exercise?</label>
+            <input type="number" id="exerciseDays" name="exerciseDays" min="0" max="7" required class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-600">
+          </div>
+          <div class="flex justify-between">
+            <button type="button" data-back="1" class="back-btn bg-gray-600 text-white px-4 py-2 rounded-full hover:bg-gray-700 transition">Back</button>
+            <button type="button" data-next="3" class="next-btn bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Next</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Exercise Details -->
+        <div id="step-3" class="form-step absolute inset-0 opacity-0 pointer-events-none">
+          <h2 class="text-3xl font-normal text-center mb-6">Step 3: Exercise Details</h2>
+          <div class="mb-6">
+            <label class="block font-semibold mb-1">What types of exercise do you engage in? (Select all that apply)</label>
+            <div class="flex flex-wrap gap-4">
+              <label class="inline-flex items-center">
+                <input type="checkbox" name="exerciseTypes" value="Cardio" class="form-checkbox text-blue-600">
+                <span class="ml-2">Cardio</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="checkbox" name="exerciseTypes" value="Strength Training" class="form-checkbox text-blue-600">
+                <span class="ml-2">Strength Training</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="checkbox" name="exerciseTypes" value="Stretching" class="form-checkbox text-blue-600">
+                <span class="ml-2">Stretching</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="checkbox" name="exerciseTypes" value="Yoga" class="form-checkbox text-blue-600">
+                <span class="ml-2">Yoga</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="checkbox" name="exerciseTypes" value="Walking" class="form-checkbox text-blue-600">
+                <span class="ml-2">Walking</span>
+              </label>
+            </div>
+          </div>
+          <!-- Preferred Exercise Mode -->
+          <div class="mb-6">
+            <label class="block font-semibold mb-1">Preferred Exercise Mode</label>
+            <div class="flex space-x-4">
+              <label class="inline-flex items-center">
+                <input type="radio" name="preferredExercise" value="Walk" required class="form-radio text-blue-600">
+                <span class="ml-2">Walk</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="radio" name="preferredExercise" value="Run" class="form-radio text-blue-600">
+                <span class="ml-2">Run</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="radio" name="preferredExercise" value="Both" class="form-radio text-blue-600">
+                <span class="ml-2">Both</span>
+              </label>
+            </div>
+          </div>
+          <div class="flex justify-between">
+            <button type="button" data-back="2" class="back-btn bg-gray-600 text-white px-4 py-2 rounded-full hover:bg-gray-700 transition">Back</button>
+            <button type="button" data-next="4" class="next-btn bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Next</button>
+          </div>
+        </div>
+
+        <!-- Step 4: Sleep & Meditation -->
+        <div id="step-4" class="form-step absolute inset-0 opacity-0 pointer-events-none">
+          <h2 class="text-3xl font-normal text-center mb-6">Step 4: Rest & Relaxation</h2>
+          <div class="mb-6">
+            <label for="sleepHours" class="block font-semibold mb-1">How many hours do you sleep per night?</label>
+            <input type="number" id="sleepHours" name="sleepHours" min="0" max="24" required class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-600">
+          </div>
+          <div class="mb-6">
+            <label class="block font-semibold mb-1">Do you practice meditation?</label>
+            <div class="flex space-x-4">
+              <label class="inline-flex items-center">
+                <input type="radio" name="meditation" value="Yes" required class="form-radio text-blue-600">
+                <span class="ml-2">Yes</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="radio" name="meditation" value="No" class="form-radio text-blue-600">
+                <span class="ml-2">No</span>
+              </label>
+            </div>
+          </div>
+          <div id="meditationDetails" class="mb-6 hidden">
+            <label for="meditationDuration" class="block font-semibold mb-1">Minutes per session</label>
+            <input type="number" id="meditationDuration" name="meditationDuration" min="0" max="120" class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-600">
+          </div>
+          <div class="flex justify-between">
+            <button type="button" data-back="3" class="back-btn bg-gray-600 text-white px-4 py-2 rounded-full hover:bg-gray-700 transition">Back</button>
+            <button type="button" data-next="5" class="next-btn bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Next</button>
+          </div>
+        </div>
+
+        <!-- Step 5: Life Goals & Challenges -->
+        <div id="step-5" class="form-step absolute inset-0 opacity-0 pointer-events-none">
+          <h2 class="text-3xl font-normal text-center mb-6">Step 5: Life Goals & Challenges</h2>
+          <div class="mb-6">
+            <label class="block font-semibold mb-1">Which areas of your life would you like to improve? (Select all that apply)</label>
+            <div class="flex flex-wrap gap-4">
+              <label class="inline-flex items-center">
+                <input type="checkbox" name="lifeGoals" value="Physical Health" class="form-checkbox text-blue-600">
+                <span class="ml-2">Physical Health</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="checkbox" name="lifeGoals" value="Mental Well-being" class="form-checkbox text-blue-600">
+                <span class="ml-2">Mental Well-being</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="checkbox" name="lifeGoals" value="Career Growth" class="form-checkbox text-blue-600">
+                <span class="ml-2">Career Growth</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="checkbox" name="lifeGoals" value="Relationships" class="form-checkbox text-blue-600">
+                <span class="ml-2">Relationships</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input type="checkbox" name="lifeGoals" value="Personal Development" class="form-checkbox text-blue-600">
+                <span class="ml-2">Personal Development</span>
+              </label>
+            </div>
+          </div>
+          <div class="mb-6">
+            <label for="commitment" class="block font-semibold mb-1">How committed are you to making changes?</label>
+            <select id="commitment" name="commitment" required class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-600">
+              <option value="">Select commitment level</option>
+              <option value="Not at all">Not at all</option>
+              <option value="Somewhat">Somewhat</option>
+              <option value="Very">Very</option>
+              <option value="Extremely">Extremely</option>
+            </select>
+          </div>
+          <div class="mb-6">
+            <label for="biggestChallenge" class="block font-semibold mb-1">What is your biggest challenge right now?</label>
+            <select id="biggestChallenge" name="biggestChallenge" required class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-600">
+              <option value="">Select a challenge</option>
+              <option value="Lack of Time">Lack of Time</option>
+              <option value="Motivation Issues">Motivation Issues</option>
+              <option value="Stress and Anxiety">Stress and Anxiety</option>
+              <option value="Poor Work-Life Balance">Poor Work-Life Balance</option>
+              <option value="Financial Constraints">Financial Constraints</option>
+              <option value="Health Concerns">Health Concerns</option>
+              <option value="Relationship Challenges">Relationship Challenges</option>
+              <option value="Career Stagnation">Career Stagnation</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="flex justify-between">
+            <button type="button" data-back="4" class="back-btn bg-gray-600 text-white px-4 py-2 rounded-full hover:bg-gray-700 transition">Back</button>
+            <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition">Submit Questionnaire</button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Results Section: Instead of showing the plan, redirect to planReady page -->
+      <div id="results" class="hidden">
+        <h2 class="heading-3d text-3xl font-bold text-center mb-6">Your Plan is Ready!</h2>
+        <p class="text-center text-lg mb-6">Get your Life Back.</p>
+        <div class="flex justify-center">
+          <a href="daily.html" class="bg-white text-black font-bold px-6 py-3 rounded-full hover:bg-gray-200 transition">Get The Plan</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Multi-step navigation
+      const nextButtons = document.querySelectorAll('.next-btn');
+      const backButtons = document.querySelectorAll('.back-btn');
+      const steps = document.querySelectorAll('.form-step');
+
+      nextButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const nextStep = btn.getAttribute('data-next');
+          showStep(nextStep);
+        });
+      });
+
+      backButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const backStep = btn.getAttribute('data-back');
+          showStep(backStep);
+        });
+      });
+
+      function showStep(stepNumber) {
+        steps.forEach(step => {
+          step.classList.add('opacity-0', 'pointer-events-none');
+          step.classList.remove('opacity-100', 'relative');
+        });
+        const activeStep = document.getElementById('step-' + stepNumber);
+        activeStep.classList.remove('opacity-0', 'pointer-events-none');
+        activeStep.classList.add('opacity-100', 'relative');
+      }
+
+      // Toggle meditation details
+      const meditationRadios = document.getElementsByName('meditation');
+      const meditationDetails = document.getElementById('meditationDetails');
+      meditationRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+          if (this.value === 'Yes') {
+            meditationDetails.classList.remove('hidden');
+          } else {
+            meditationDetails.classList.add('hidden');
+          }
+        });
+      });
+
+      // Generate an array of 60 daily plan HTML strings based on form data.
+      function generatePlanArray(data) {
+        let planArray = [];
+        const exerciseDays = parseInt(data.exerciseDays);
+        const sleepHours = parseInt(data.sleepHours);
+        const medDuration = (data.meditation === 'Yes' && data.meditationDuration) ? parseInt(data.meditationDuration) : 0;
+        const preferred = data.preferredExercise; // "Walk", "Run", or "Both"
+        const commitment = data.commitment;
+        let difficultyMultiplier = 1;
+        if (commitment === "Extremely") {
+          difficultyMultiplier = 1.5;
+        } else if (commitment === "Very") {
+          difficultyMultiplier = 1.2;
+        } else if (commitment === "Somewhat") {
+          difficultyMultiplier = 1;
+        } else {
+          difficultyMultiplier = 0.8;
+        }
+
+        for (let day = 1; day <= 60; day++) {
+          let weekNumber = Math.floor((day - 1) / 7) + 1;
+          let dayPlan = `<h1 class="text-3xl font-bold mb-4">Day ${day}</h1>`;
+          let tasks = `<ul class="space-y-1">`;
+          tasks += `<li><input type="checkbox" class="task-checkbox mr-2" id="day${day}-wake"> Wake up by 7 AM</li>`;
+          tasks += `<li><input type="checkbox" class="task-checkbox mr-2" id="day${day}-sleep"> Sleep at least 7 hours</li>`;
+          tasks += `<li><input type="checkbox" class="task-checkbox mr-2" id="day${day}-bath"> Take a shower/bath</li>`;
+          tasks += `<li><input type="checkbox" class="task-checkbox mr-2" id="day${day}-stretch"> Do a 10-minute stretching session</li>`;
+          if (data.meditation === 'Yes') {
+            tasks += `<li><input type="checkbox" class="task-checkbox mr-2" id="day${day}-meditate"> Meditate for 10 minutes</li>`;
+          } else {
+            tasks += `<li><input type="checkbox" class="task-checkbox mr-2" id="day${day}-meditate"> Try a 10-minute meditation session</li>`;
+          }
+          tasks += `<li><input type="checkbox" class="task-checkbox mr-2" id="day${day}-journal"> Write a journal entry</li>`;
+          tasks += `<li><input type="checkbox" class="task-checkbox mr-2" id="day${day}-water"> Drink at least 2 L of water</li>`;
+
+          // Adaptive exercise tasks
+          if (data.exerciseTypes && Array.isArray(data.exerciseTypes) && data.exerciseTypes.includes("Strength Training")) {
+            let dayOfWeek = day % 7;
+            if (dayOfWeek === 1 || dayOfWeek === 3 || dayOfWeek === 5 || dayOfWeek === 0) {
+              tasks += `<li><input type="checkbox" class="task-checkbox mr-2" id="day${day}-strength"> Strength Training: perform your routine</li>`;
+            } else {
+              tasks += `<li><input type="checkbox" class="task-checkbox mr-2" id="day${day}-walk"> Walk for recovery (6000 steps)</li>`;
+            }
+          } else if (data.exerciseTypes && Array.isArray(data.exerciseTypes) && data.exerciseTypes.includes("Yoga")) {
+            let baseDuration = 20;
+            let yogaDuration = baseDuration + (weekNumber - 1) * 5;
+            tasks += `<li><input type="checkbox" class="task-checkbox mr-2" id="day${day}-yoga"> Do a ${yogaDuration}-minute yoga session</li>`;
+          } else {
+            let walkSteps = 6000 + ((day - 1) / 59) * (12000 - 6000);
+            walkSteps = Math.round(walkSteps / 100) * 100;
+            tasks += `<li><input type="checkbox" class="task-checkbox mr-2" id="day${day}-walk"> Walk ${walkSteps} steps</li>`;
+            if ((preferred === "Run" || preferred === "Both") && (day % 2 === 0)) {
+              let runDistance = 3 + ((day - 1) / 59) * (6 - 3);
+              runDistance = Math.round(runDistance * 10) / 10;
+              let intensity = (commitment === "Extremely" || commitment === "Very") ? "moderately hard" : "easy";
+              tasks += `<li><input type="checkbox" class="task-checkbox mr-2" id="day${day}-run"> Run ${runDistance} km (${intensity})</li>`;
+            }
+            tasks += `<li><input type="checkbox" class="task-checkbox mr-2" id="day${day}-exercise"> Do your daily exercise routine</li>`;
+          }
+
+          // Extra challenge on some days
+          let extraChance = (commitment === "Extremely") ? 0.3 : 0.15;
+          if (Math.random() < extraChance) {
+            const extras = [
+              "Do an extra 10 push-ups",
+              "Add a 5-minute core workout",
+              "Do an extra 15 squats",
+              "Try a 5-minute HIIT burst"
+            ];
+            const extraTask = extras[Math.floor(Math.random() * extras.length)];
+            tasks += `<li class="text-red-600"><input type="checkbox" class="task-checkbox mr-2" id="day${day}-extra"> Bonus: ${extraTask}</li>`;
+          }
+          
+          tasks += `<li>
+                      <button type="button" class="journal-btn text-blue-600 underline" data-day="${day}">Journal Entry</button>
+                      <div id="journal-day${day}" class="hidden mt-2">
+                        <textarea class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-600" placeholder="Write your journal for day ${day}..."></textarea>
+                      </div>
+                    </li>`;
+          tasks += `</ul>`;
+          dayPlan += tasks;
+          planArray.push(dayPlan);
+        }
+        return planArray;
+      }
+
+      // Habit Tracker: persist state of checkboxes and journal entries
+      function attachHabitTracker() {
+        document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+          const saved = localStorage.getItem(checkbox.id);
+          if (saved === "true") {
+            checkbox.checked = true;
+          }
+          checkbox.addEventListener('change', () => {
+            localStorage.setItem(checkbox.id, checkbox.checked);
+          });
+        });
+        document.querySelectorAll('.journal-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const day = btn.getAttribute('data-day');
+            const journalDiv = document.getElementById(`journal-day${day}`);
+            journalDiv.classList.toggle('hidden');
+          });
+        });
+        document.querySelectorAll('textarea').forEach(textarea => {
+          const id = textarea.parentElement.id;
+          const savedText = localStorage.getItem(id);
+          if (savedText) {
+            textarea.value = savedText;
+          }
+          textarea.addEventListener('blur', () => {
+            localStorage.setItem(id, textarea.value);
+          });
+        });
+      }
+
+      // On form submission, generate the plan array, store it, and redirect to planReady.html
+      document.getElementById('multiStepForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const data = {};
+        formData.forEach((value, key) => {
+          if (data[key]) {
+            if (!Array.isArray(data[key])) {
+              data[key] = [data[key]];
+            }
+            data[key].push(value);
+          } else {
+            data[key] = value;
+          }
+        });
+        
+        const planArray = generatePlanArray(data);
+        localStorage.setItem("planData", JSON.stringify(planArray));
+        localStorage.setItem("currentDay", 1);
+        localStorage.setItem("lastVisit", new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
+        
+        // Redirect to planReady.html
+        window.location.href = "planready.html";
+      });
+    </script>
+  </div>
+</body>
+</html>

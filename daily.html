@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Daily Plan - Habity</title>
+  <!-- Google Fonts: Inter with italic style -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Global styling: Inter italic */
+    body, h1, p, button {
+      font-family: 'Inter', sans-serif;
+      font-style: italic;
+    }
+    /* Dynamic Background Slideshow */
+    .background-slideshow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .background-slideshow .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      animation: fade 12s infinite;
+    }
+    .background-slideshow .slide:nth-child(1) {
+      animation-delay: 0s;
+    }
+    .background-slideshow .slide:nth-child(2) {
+      animation-delay: 4s;
+    }
+    .background-slideshow .slide:nth-child(3) {
+      animation-delay: 8s;
+    }
+    @keyframes fade {
+      0% { opacity: 0; }
+      8% { opacity: 1; }
+      25% { opacity: 1; }
+      33% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body class="bg-black text-white min-h-screen flex items-center justify-center">
+  <!-- Background Slideshow -->
+  <div class="background-slideshow">
+    <div class="slide" style="background-image: url('image1.jpg');"></div>
+    <div class="slide" style="background-image: url('image2.jpg');"></div>
+    <div class="slide" style="background-image: url('image3.jpg');"></div>
+  </div>
+  
+  <div class="max-w-3xl mx-auto p-8 bg-white text-black rounded-lg shadow-lg">
+    <div id="dailyPlanContent">
+      <!-- Daily plan content will be injected here.
+           (Assumes each planData element already includes a header for the day.) -->
+    </div>
+    <div class="flex justify-between mt-6">
+      <button id="prevBtn" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Previous Day</button>
+      <button id="nextBtn" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Next Day</button>
+    </div>
+  </div>
+  
+  <script>
+    // Retrieve planData (array of 60 daily plan HTML strings) and currentDay from localStorage.
+    let planData = JSON.parse(localStorage.getItem("planData") || "[]");
+    let currentDay = parseInt(localStorage.getItem("currentDay")) || 1;
+    const totalDays = 60;
+    
+    // Automatic day advancement based on Pacific Time.
+    function updateDayIfNeeded() {
+      const now = new Date();
+      const pacificNow = new Date(now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
+      const lastVisitStr = localStorage.getItem("lastVisit");
+      if (lastVisitStr) {
+        const lastVisit = new Date(lastVisitStr);
+        const diff = pacificNow - lastVisit;
+        if (diff >= 24 * 60 * 60 * 1000 && currentDay < totalDays) {
+          currentDay++;
+          localStorage.setItem("currentDay", currentDay);
+          localStorage.setItem("lastVisit", pacificNow);
+        }
+      } else {
+        localStorage.setItem("lastVisit", pacificNow);
+      }
+    }
+    updateDayIfNeeded();
+
+    // Display today's plan (assumes each planData element includes a header for the day).
+    const contentDiv = document.getElementById("dailyPlanContent");
+    if (planData.length === 0) {
+      contentDiv.innerHTML = "<p>Your daily plan is not available. Please complete the questionnaire first.</p>";
+    } else {
+      contentDiv.innerHTML = planData[currentDay - 1] || "<p>No plan available for this day.</p>";
+    }
+
+    // Navigation: Previous and Next buttons.
+    document.getElementById("prevBtn").addEventListener("click", () => {
+      if (currentDay > 1) {
+        currentDay--;
+        localStorage.setItem("currentDay", currentDay);
+        location.reload();
+      }
+    });
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      if (currentDay < totalDays) {
+        currentDay++;
+        localStorage.setItem("currentDay", currentDay);
+        location.reload();
+      }
+    });
+  </script>
+</body>
+</html>
+
+
