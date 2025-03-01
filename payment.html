@@ -8,9 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Paddle JS -->
-  <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
   <style>
+    /* Global styling: Inter italic */
     body, h1, p, a, button {
       font-family: 'Inter', sans-serif;
       font-style: italic;
@@ -19,29 +18,19 @@
 </head>
 <body class="bg-black flex items-center justify-center min-h-screen">
   <div class="text-center">
-    <h1 class="text-4xl md:text-5xl font-bold mb-4">Your Plan is Just $5</h1>
+    <h1 class="text-4xl md:text-5xl font-bold mb-4">Your Plan is Just $4.99</h1>
     <p class="text-xl md:text-2xl font-semibold mb-8">Pay now to gain full access to your personalized 60-day plan.</p>
-    <button id="payButton" class="bg-white text-black font-bold px-6 py-3 rounded-full hover:bg-gray-200 transition">
-      Pay
+    <button id="payButton" class="bg-blue-600 text-white font-bold px-6 py-3 rounded-full hover:bg-blue-700 transition">
+      Pay with Dodo
     </button>
   </div>
 
   <script>
-    // Initialize Paddle (replace 123456 with your vendor ID)
-    Paddle.Setup({ vendor: 123456 });
-
     document.getElementById('payButton').addEventListener('click', function() {
-      Paddle.Checkout.open({
-        product: 987654, // Replace with your Paddle product ID for the $5 plan
-        successCallback: function(data) {
-          // Payment successful; redirect to signup page.
-          window.location.href = "signup.html";
-        },
-        closeCallback: function() {
-          console.log("Checkout closed");
-        }
-      });
+      // Redirect to the Dodo Payments checkout link.
+      window.location.href = "https://checkout.dodopayments.com/buy/pdt_3e0XEKvz4pUO8kBoLuTRK?quantity=1";
     });
   </script>
 </body>
 </html>
+
