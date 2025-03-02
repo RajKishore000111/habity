@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login - Habity</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body, h1, p, input, button {
+      font-family: 'Inter', sans-serif;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body class="bg-black text-white flex items-center justify-center min-h-screen">
+  <div class="w-full max-w-md px-4 text-center">
+    <h1 class="text-4xl font-bold mb-4">Login</h1>
+    <form id="loginForm" class="space-y-4">
+      <input type="email" id="loginEmail" placeholder="Email" required class="w-full border border-gray-300 p-2 rounded">
+      <input type="password" id="loginPassword" placeholder="Password" required class="w-full border border-gray-300 p-2 rounded">
+      <button type="submit" class="bg-white text-black font-bold px-6 py-3 rounded-full hover:bg-gray-200 transition">
+        Login
+      </button>
+    </form>
+  </div>
+
+  <script>
+    async function loginUser(email, password) {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        alert("Login error: " + data.message);
+      } else {
+        alert("Login successful.");
+        window.location.href = "daily.html";
+      }
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      loginUser(email, password);
+    });
+  </script>
+</body>
+</html>
