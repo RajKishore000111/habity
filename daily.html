@@ -4,12 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Your Daily Plan - Habity</title>
-  <!-- Google Fonts: Inter with italic style -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
-  <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Global styling: Inter italic */
     body, h1, p, button {
       font-family: 'Inter', sans-serif;
       font-style: italic;
@@ -33,15 +30,9 @@
       opacity: 0;
       animation: fade 12s infinite;
     }
-    .background-slideshow .slide:nth-child(1) {
-      animation-delay: 0s;
-    }
-    .background-slideshow .slide:nth-child(2) {
-      animation-delay: 4s;
-    }
-    .background-slideshow .slide:nth-child(3) {
-      animation-delay: 8s;
-    }
+    .background-slideshow .slide:nth-child(1) { animation-delay: 0s; }
+    .background-slideshow .slide:nth-child(2) { animation-delay: 4s; }
+    .background-slideshow .slide:nth-child(3) { animation-delay: 8s; }
     @keyframes fade {
       0% { opacity: 0; }
       8% { opacity: 1; }
@@ -54,15 +45,15 @@
 <body class="bg-black text-white min-h-screen flex items-center justify-center">
   <!-- Background Slideshow -->
   <div class="background-slideshow">
-    <div class="slide" style="background-image: url('https://img.freepik.com/free-photo/full-shot-ninja-wearing-equipment_23-2150960932.jpg?t=st=1740497431~exp=1740501031~hmac=e95b8d762c54fa5774ae3eeb84ab3836b5da2ca69b19ea7f42dee903e89373d9&w=1380');"></div>
-    <div class="slide" style="background-image: url('https://img.freepik.com/free-photo/full-shot-ninja-wearing-equipment_23-2150960904.jpg?t=st=1740497639~exp=1740501239~hmac=f96958892093c0a22a0b6db898383ec6ae69f038f31b4041155e696b90ca8ce3&w=1480');"></div>
-    <div class="slide" style="background-image: url('https://img.freepik.com/free-photo/full-shot-ninja-wearing-equipment_23-2150961104.jpg?t=st=1740497690~exp=1740501290~hmac=89d071cff0138ff2f0d08158fb59561751765c96728bd00882b5e52045a14099&w=1480');"></div>
+    <div class="slide" style="background-image: url('image1.jpg');"></div>
+    <div class="slide" style="background-image: url('image2.jpg');"></div>
+    <div class="slide" style="background-image: url('image3.jpg');"></div>
   </div>
   
   <div class="max-w-3xl mx-auto p-8 bg-white text-black rounded-lg shadow-lg">
     <div id="dailyPlanContent">
-      <!-- Daily plan content will be injected here.
-           (Assumes each planData element already includes a header for the day.) -->
+      <!-- Daily plan content loaded from localStorage or your backend -->
+      <p>Your personalized daily plan will appear here.</p>
     </div>
     <div class="flex justify-between mt-6">
       <button id="prevBtn" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Previous Day</button>
@@ -71,12 +62,14 @@
   </div>
   
   <script>
-    // Retrieve planData (array of 60 daily plan HTML strings) and currentDay from localStorage.
+    // The session is verified by our backend via httpOnly cookies.
+    // On this page, we assume the user is logged in if they reached here.
+    // For demonstration, we use localStorage for plan data and current day.
+
     let planData = JSON.parse(localStorage.getItem("planData") || "[]");
     let currentDay = parseInt(localStorage.getItem("currentDay")) || 1;
     const totalDays = 60;
-    
-    // Automatic day advancement based on Pacific Time.
+
     function updateDayIfNeeded() {
       const now = new Date();
       const pacificNow = new Date(now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
@@ -95,7 +88,6 @@
     }
     updateDayIfNeeded();
 
-    // Display today's plan (assumes each planData element includes a header for the day).
     const contentDiv = document.getElementById("dailyPlanContent");
     if (planData.length === 0) {
       contentDiv.innerHTML = "<p>Your daily plan is not available. Please complete the questionnaire first.</p>";
@@ -103,7 +95,6 @@
       contentDiv.innerHTML = planData[currentDay - 1] || "<p>No plan available for this day.</p>";
     }
 
-    // Navigation: Previous and Next buttons.
     document.getElementById("prevBtn").addEventListener("click", () => {
       if (currentDay > 1) {
         currentDay--;
@@ -121,5 +112,3 @@
   </script>
 </body>
 </html>
-
-
