@@ -1,0 +1,29 @@
+{
+  "name": "habity-backend",
+  "version": "1.0.0",
+  "description": "Backend for Habity website handling authentication, payments, and protected content.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "express",
+    "mongodb",
+    "authentication",
+    "payments",
+    "jwt",
+    "supabase"
+  ],
+  "author": "Raj Kishore Sarma",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.3.1"
+  }
+}
