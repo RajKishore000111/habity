@@ -22,16 +22,16 @@
     <form id="signupForm" class="space-y-4">
       <input type="email" id="email" placeholder="Email" required class="w-full border border-gray-300 p-2 rounded text-black">
       
-      <!-- Password Input with Eye Icon Toggle -->
+      <!-- Password Field with Toggle Eye -->
       <div class="relative">
         <input type="password" id="password" placeholder="Password" required class="w-full border border-gray-300 p-2 rounded text-black">
-        <span id="togglePassword" class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
-          <!-- Eye Icon SVG -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 pr-3 flex items-center focus:outline-none">
+          <!-- Eye Icon (open) -->
+          <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
           </svg>
-        </span>
+        </button>
       </div>
       
       <button type="submit" class="bg-white text-black font-bold px-6 py-3 rounded-full hover:bg-gray-200 transition">
@@ -41,7 +41,18 @@
   </div>
 
   <script>
-    // Initialize Supabase using values from environment (in production, inject these securely)
+    // Toggle password visibility
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+
+    togglePassword.addEventListener('click', () => {
+      const currentType = passwordInput.getAttribute('type');
+      const newType = currentType === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', newType);
+      // Optionally, change the icon based on newType
+    });
+
+    // Initialize Supabase (in production, inject these securely)
     const supabaseUrl = 'https://your-supabase-url.supabase.co';
     const supabaseAnonKey = 'your_supabase_anon_key';
     const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
@@ -59,17 +70,7 @@
         window.location.href = "login.html";
       }
     });
-
-    // Toggle password visibility
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordField = document.getElementById('password');
-
-    togglePassword.addEventListener('click', () => {
-      const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-      passwordField.setAttribute('type', type);
-    });
   </script>
 </body>
 </html>
-
 
