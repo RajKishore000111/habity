@@ -35,11 +35,11 @@ export default async function handler(req, res) {
 
   if (status === 'paid') {
     // Update the user's profile in Supabase to mark them as paid.
-    // Assuming you have a "profiles" table with an "id" column linked to auth.users and a "hasPaid" boolean.
+    // Assumes you have a "profiles" table with a column "email" and "hasPaid".
     const { data, error } = await supabase
       .from('profiles')
       .update({ hasPaid: true })
-      .eq('email', email); // Alternatively, if your profiles table doesn't store email, you may need to join with auth.users.
+      .eq('email', email);
     
     if (error) {
       console.error("Error updating profile:", error);
@@ -52,3 +52,4 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Payment not confirmed' });
   }
 }
+
