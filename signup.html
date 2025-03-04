@@ -32,22 +32,11 @@
     // Initialize Supabase using values from environment (in production, inject these securely)
     const supabaseUrl = 'https://your-supabase-url.supabase.co';
     const supabaseAnonKey = 'your_supabase_anon_key';
-    const supabaseClient = supabase.createClient(supabaseUrl, supabaseAnonKey);
+    const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
 
     document.getElementById('signupForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+      const password = document.getEl
 
-      const { error } = await supabaseClient.auth.signUp({ email, password });
-      if (error) {
-        alert("Signup error: " + error.message);
-      } else {
-        alert("Signup successful. Please check your email to confirm your account, then log in.");
-        window.location.href = "login.html";
-      }
-    });
-  </script>
-</body>
-</html>
 
