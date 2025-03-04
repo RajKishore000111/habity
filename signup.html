@@ -20,8 +20,8 @@
     <h1 class="text-4xl font-bold mb-4">Sign Up</h1>
     <p class="text-xl mb-6">Create your account to access your personalized plan.</p>
     <form id="signupForm" class="space-y-4">
-      <input type="email" id="email" placeholder="Email" required class="w-full border border-gray-300 p-2 rounded">
-      <input type="password" id="password" placeholder="Password" required class="w-full border border-gray-300 p-2 rounded">
+      <input type="email" id="email" placeholder="Email" required class="w-full border border-gray-300 p-2 rounded text-black">
+      <input type="password" id="password" placeholder="Password" required class="w-full border border-gray-300 p-2 rounded text-black">
       <button type="submit" class="bg-white text-black font-bold px-6 py-3 rounded-full hover:bg-gray-200 transition">
         Sign Up
       </button>
@@ -32,14 +32,14 @@
     // Initialize Supabase using values from environment (in production, inject these securely)
     const supabaseUrl = 'https://your-supabase-url.supabase.co';
     const supabaseAnonKey = 'your_supabase_anon_key';
-    const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseAnonKey);
 
     document.getElementById('signupForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
-      const { error } = await supabase.auth.signUp({ email, password });
+      const { error } = await supabaseClient.auth.signUp({ email, password });
       if (error) {
         alert("Signup error: " + error.message);
       } else {
