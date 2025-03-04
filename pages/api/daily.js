@@ -11,13 +11,12 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// Create a Supabase client using your Service Role key (safe on server side)
 const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
     res.setHeader('Allow', ['GET']);
-    return res.status(405).end(`Method ${req.method} Not Allowed`);
+    return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
   }
   
   // Parse cookies to retrieve the token
@@ -35,7 +34,7 @@ export default async function handler(req, res) {
     return res.status(401).json({ message: "Failed to authenticate token" });
   }
   
-  // Extract email (or user id) from the token payload
+  // Extract email from token payload
   const { email } = decoded;
   if (!email) {
     return res.status(400).json({ message: "Invalid token payload" });
