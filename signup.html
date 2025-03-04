@@ -6,7 +6,7 @@
   <title>Sign Up - Habity</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Include Supabase JS Client -->
+  <!-- Supabase JS Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/supabase.min.js"></script>
   <style>
     body, h1, p, input, button {
@@ -29,7 +29,7 @@
   </div>
 
   <script>
-    // In production, inject these keys via environment variables
+    // Initialize Supabase using values from environment (in production, inject these securely)
     const supabaseUrl = 'https://your-supabase-url.supabase.co';
     const supabaseAnonKey = 'your_supabase_anon_key';
     const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
