@@ -4,16 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Your Daily Plan - Habity</title>
+  <!-- Google Fonts: Inter (italic) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Supabase JS Client -->
+  <!-- Supabase JS Client (for client-side session check if needed) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/supabase.min.js"></script>
   <style>
     body, h1, p, button {
       font-family: 'Inter', sans-serif;
       font-style: italic;
     }
-    /* Dynamic Background Slideshow */
+    /* Background Slideshow */
     .background-slideshow {
       position: fixed;
       top: 0;
@@ -51,75 +53,46 @@
     <div class="slide" style="background-image: url('image2.jpg');"></div>
     <div class="slide" style="background-image: url('image3.jpg');"></div>
   </div>
-  
+
   <div class="max-w-3xl mx-auto p-8 bg-white text-black rounded-lg shadow-lg">
-    <div id="dailyPlanContent">
-      <p>Your personalized daily plan will appear here.</p>
-    </div>
-    <div class="flex justify-between mt-6">
-      <button id="prevBtn" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Previous Day</button>
-      <button id="nextBtn" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Next Day</button>
+    <div id="dailyPlanContent" class="text-center">
+      <p>Loading your daily plan...</p>
     </div>
   </div>
-  
+
   <script>
+    // (Optional) Initialize Supabase client if you need to check the session client-side.
+    // In production, your protected API endpoint will handle the auth check.
     const supabaseUrl = 'https://your-supabase-url.supabase.co';
     const supabaseAnonKey = 'your_supabase_anon_key';
     const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
 
-    // Check if the user is logged in; if not, redirect to login
+    // Check if there is an active session; if not, redirect to login.
     const session = supabase.auth.session();
     if (!session) {
       alert("Please log in to access your plan.");
       window.location.href = "login.html";
     }
 
-    // For demonstration, daily plan data is stored in localStorage.
-    // In production, you may fetch this from a protected API.
-    let planData = JSON.parse(localStorage.getItem("planData") || "[]");
-    let currentDay = parseInt(localStorage.getItem("currentDay")) || 1;
-    const totalDays = 60;
-
-    function updateDayIfNeeded() {
-      const now = new Date();
-      const pacificNow = new Date(now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
-      const lastVisitStr = localStorage.getItem("lastVisit");
-      if (lastVisitStr) {
-        const lastVisit = new Date(lastVisitStr);
-        const diff = pacificNow - lastVisit;
-        if (diff >= 24 * 60 * 60 * 1000 && currentDay < totalDays) {
-          currentDay++;
-          localStorage.setItem("currentDay", currentDay);
-          localStorage.setItem("lastVisit", pacificNow);
+    // Fetch the daily plan from the protected API endpoint.
+    async function fetchDailyPlan() {
+      try {
+        const response = await fetch('/api/daily');
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Failed to fetch daily plan");
         }
-      } else {
-        localStorage.setItem("lastVisit", pacificNow);
+        const { day, plan } = await response.json();
+        document.getElementById("dailyPlanContent").innerHTML = `<h2 class="text-3xl font-bold mb-4">Day ${day}</h2><p class="text-xl">${plan}</p>`;
+      } catch (error) {
+        console.error("Error fetching daily plan:", error);
+        document.getElementById("dailyPlanContent").innerHTML = `<p>Error fetching daily plan: ${error.message}</p>`;
       }
     }
-    updateDayIfNeeded();
 
-    const contentDiv = document.getElementById("dailyPlanContent");
-    if (planData.length === 0) {
-      contentDiv.innerHTML = "<p>Your daily plan is not available. Please complete the questionnaire first.</p>";
-    } else {
-      contentDiv.innerHTML = planData[currentDay - 1] || "<p>No plan available for this day.</p>";
-    }
-
-    document.getElementById("prevBtn").addEventListener("click", () => {
-      if (currentDay > 1) {
-        currentDay--;
-        localStorage.setItem("currentDay", currentDay);
-        location.reload();
-      }
-    });
-    document.getElementById("nextBtn").addEventListener("click", () => {
-      if (currentDay < totalDays) {
-        currentDay++;
-        localStorage.setItem("currentDay", currentDay);
-        location.reload();
-      }
-    });
+    fetchDailyPlan();
   </script>
 </body>
 </html>
+
 
