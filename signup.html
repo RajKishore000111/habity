@@ -6,6 +6,8 @@
   <title>Sign Up - Habity</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Include Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/supabase.min.js"></script>
   <style>
     body, h1, p, input, button {
       font-family: 'Inter', sans-serif;
@@ -27,28 +29,23 @@
   </div>
 
   <script>
-    // When the form is submitted, call our backend signup endpoint.
-    async function signupUser(email, password) {
-      const response = await fetch('/api/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        alert("Signup error: " + data.message);
-      } else {
-        alert("Signup successful. Please complete payment to access your plan.");
-        // Redirect to your payment page (or plan-ready page)
-        window.location.href = "payment.html";
-      }
-    }
+    // In production, inject these keys via environment variables
+    const supabaseUrl = 'https://your-supabase-url.supabase.co';
+    const supabaseAnonKey = 'your_supabase_anon_key';
+    const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
 
-    document.getElementById('signupForm').addEventListener('submit', (e) => {
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
-      signupUser(email, password);
+
+      const { error } = await supabase.auth.signUp({ email, password });
+      if (error) {
+        alert("Signup error: " + error.message);
+      } else {
+        alert("Signup successful. Please check your email to confirm your account, then log in.");
+        window.location.href = "login.html";
+      }
     });
   </script>
 </body>
