@@ -6,6 +6,8 @@
   <title>Login - Habity</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Include Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/supabase.min.js"></script>
   <style>
     body, h1, p, input, button {
       font-family: 'Inter', sans-serif;
@@ -26,29 +28,24 @@
   </div>
 
   <script>
-    async function loginUser(email, password) {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        alert("Login error: " + data.message);
-      } else {
-        alert("Login successful.");
-        // Redirect to the protected daily plan page
-        window.location.href = "daily.html";
-      }
-    }
+    const supabaseUrl = 'https://your-supabase-url.supabase.co';
+    const supabaseAnonKey = 'your_supabase_anon_key';
+    const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
 
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('loginEmail').value;
       const password = document.getElementById('loginPassword').value;
-      loginUser(email, password);
+
+      const { error } = await supabase.auth.signIn({ email, password });
+      if (error) {
+        alert("Login error: " + error.message);
+      } else {
+        alert("Login successful.");
+        // Redirect to the protected daily plan page.
+        window.location.href = "daily.html";
+      }
     });
   </script>
 </body>
 </html>
-
